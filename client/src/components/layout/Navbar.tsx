@@ -23,7 +23,7 @@ export function Navbar() {
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center">
                 <BookOpen className="h-8 w-8 text-primary" />
-                <span className="ml-2 text-lg font-semibold text-primary font-heading">Recipe Keeper</span>
+                <span className="ml-2 text-lg font-semibold text-primary font-heading">EVERYONE CAN COOK</span>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-4">

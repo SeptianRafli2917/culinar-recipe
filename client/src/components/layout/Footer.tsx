@@ -5,7 +5,7 @@ export function Footer() {
         <div className="md:flex md:items-center md:justify-between">
           <div className="flex justify-center md:justify-start">
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              © {new Date().getFullYear()} Recipe Keeper. All rights reserved.
+              © {new Date().getFullYear()} EVERYONE CAN COOK. All rights reserved.
             </span>
           </div>
           <div className="mt-4 flex justify-center md:mt-0">
