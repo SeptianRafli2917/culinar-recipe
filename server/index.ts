@@ -1,6 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import multer from "multer"
+import path from "path"
 
 const app = express();
 app.use(express.json());
@@ -34,6 +36,23 @@ app.use((req, res, next) => {
   });
 
   next();
+});
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "public/uploads")); // Ensure this folder exists
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = Date.now() + "-" + file.originalname;
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({ storage });
+
+app.post("/api/upload", upload.single("image"), (req, res) => {
+  const imageUrl = `/uploads/${req.file.filename}`;
+  res.json({ imageUrl });
 });
 
 (async () => {

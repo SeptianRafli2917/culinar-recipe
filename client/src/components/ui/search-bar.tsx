@@ -6,16 +6,17 @@ import { Search } from "lucide-react";
 
 interface SearchBarProps {
   initialQuery?: string;
+  onSetSearch: (query: string) => void;
 }
 
-export function SearchBar({ initialQuery = "" }: SearchBarProps) {
+export function SearchBar({ initialQuery = "", onSetSearch }: SearchBarProps) {
   const [, navigate] = useLocation();
   const [query, setQuery] = useState(initialQuery);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      navigate(`/?search=${encodeURIComponent(query.trim())}`);
+      onSetSearch(`${encodeURIComponent(query.trim())}`);
     } else {
       navigate("/");
     }
@@ -39,7 +40,7 @@ export function SearchBar({ initialQuery = "" }: SearchBarProps) {
       <div className="mt-3 sm:mt-0 sm:ml-3">
         <Button
           type="submit"
-          className="block w-full py-3 px-4 bg-secondary hover:bg-green-600 text-white font-medium"
+          className="flex items-center w-full py-3 px-4 bg-secondary hover:bg-green-600 text-white font-medium"
         >
           <Search className="h-5 w-5 mr-2" />
           Search

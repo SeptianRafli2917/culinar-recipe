@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "wouter";
+import { useLocation, useParams } from "wouter";
 import { Recipe } from "@shared/schema";
 import { RecipeGrid } from "@/components/recipe/RecipeGrid";
 import { SearchBar } from "@/components/ui/search-bar";
 import { CategoryTabs } from "@/components/ui/category-tabs";
 
 export default function Home() {
-  const [location] = useLocation();
-  
-  // Parse URL parameters
-  const urlParams = new URLSearchParams(location.split("?")[1] || "");
+  const [search, setSearch] = useState(() => window.location.search);
+  const urlParams = new URLSearchParams(search);
   const categoryParam = urlParams.get("category") || "all";
   const searchParam = urlParams.get("search") || "";
 
@@ -18,17 +16,10 @@ export default function Home() {
   const [currentCategory, setCurrentCategory] = useState(categoryParam);
   const [searchQuery, setSearchQuery] = useState(searchParam);
 
-  // Update state when URL changes
-  useEffect(() => {
-    const newUrlParams = new URLSearchParams(location.split("?")[1] || "");
-    const newCategory = newUrlParams.get("category") || "all";
-    const newSearch = newUrlParams.get("search") || "";
-    
-    setCurrentCategory(newCategory);
-    setSearchQuery(newSearch);
-  }, [location]);
+  const onSetSearch = (query: string) => {
+    setSearchQuery(query);
+  }
 
-  // Build API query string
   const buildQueryString = () => {
     const params = new URLSearchParams();
     
@@ -89,7 +80,7 @@ export default function Home() {
               Store your personal recipes or share with a community of food lovers.
             </p>
             <div className="mt-8 max-w-xl mx-auto">
-              <SearchBar initialQuery={searchQuery} />
+              <SearchBar onSetSearch={onSetSearch} initialQuery={searchQuery} />
             </div>
           </div>
         </div>
